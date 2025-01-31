@@ -1,6 +1,11 @@
 {
   "buildCommand": "bun install",
-  "outputDirectory": ".",
   "installCommand": "bun install",
-  "devCommand": "bun run index.ts"
+  "outputDirectory": "public",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
