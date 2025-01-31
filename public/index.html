@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Chisai-URL</title>
+</head>
+
+<body>
+  <nav>
+    <img src="logo.svg" class="svg" alt="Logo">
+    <h1 class="title">Welcome to Chisai URL Shortener</h1>
+  </nav>
+  <div class="background">
+    <form class="form">
+      <input class="inpt" type="text" placeholder="Enter URL" required>
+      <button class="button" type="submit">Shorten</button>
+    </form>
+    <main>
+      <div class="output">
+      </div>
+      <button class="clipboard"><img src="clipboard.svg" alt="Copy"></button>
+    </main>
+  </div>
+  <footer></footer>
+
+  <script>
+    const input = document.querySelector("input");
+    const form = document.querySelector("form");
+    const output = document.querySelector(".output")
+    const clipboard = document.querySelector(".clipboard");
+    const origin = window.location.origin;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const originalUrl = input.value;
+      if (!originalUrl) {
+        return alert("Please enter a valid URL!");
+      }
+      try {
+        const response = await fetch(`${origin}/chisai`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({originalUrl})
+        });
+        const data = await response.json();
+        if (response.ok) {
+          input.value = "";
+          console.log(data);
+          output.innerText = `${window.location.origin}/${data.url}`;
+        } else {
+          alert("Oops! The server seems to be down!");
+        }
+      } catch (e) {
+        console.log("Something went wrong", e);
+      }
+    });
+
+    clipboard.addEventListener('click', async () => {
+      const text = output.textContent;
+      if (text) {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch (e) {
+          alert("Error copying!");
+        }
+      } else {
+        alert("Nothing to copy!");
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+{
+  "buildCommand": "bun install",
+  "outputDirectory": ".",
+  "installCommand": "bun install",
+  "devCommand": "bun run index.ts"
+}
