@@ -34,30 +34,33 @@
     const clipboard = document.querySelector(".clipboard");
     const origin = window.location.origin;
 
-    form.addEventListener('submit', async (e) => {
+
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const originalUrl = input.value;
       if (!originalUrl) {
         return alert("Please enter a valid URL!");
       }
+
       try {
         const response = await fetch(`${origin}/chisai`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({originalUrl})
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({originalUrl}),
         });
-        const data = await response.json();
-        if (response.ok) {
-          input.value = "";
-          console.log(data);
-          output.innerText = `${window.location.origin}/${data.url}`;
-        } else {
-          alert("Oops! The server seems to be down!");
+
+        if (!response.ok) {
+          const text = await response.text();
+          console.error("Server error:", text);
+          throw new Error(`Server error: ${response.status}`);
         }
+
+        const data = await response.json();
+        input.value = "";
+        output.innerText = `${window.location.origin}/${data.url}`;
       } catch (e) {
-        console.log("Something went wrong", e);
+        console.error("Something went wrong:", e);
+        alert("Something went wrong. Check the console for details.");
       }
     });
 
