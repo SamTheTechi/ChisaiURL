@@ -1,11 +1,15 @@
 {
-  "buildCommand": "bun install",
-  "installCommand": "bun install",
-  "outputDirectory": "public",
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/index.js"
     }
   ]
 }

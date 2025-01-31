@@ -1,23 +1,25 @@
 import express from 'express';
-import type { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import { fileURLToPath } from "url";
 import path from 'path';
 import cors from 'cors';
-import { URL } from './model';
+import { URL } from './model.js';
 import { nanoid } from 'nanoid';
 
 dotenv.config();
 
-const app: Express = express();
+const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
-const port: number = parseInt(process.env.PORT || process.env.LOCALPORT || "5000", 10);
+const port = parseInt(process.env.PORT || process.env.LOCALPORT || "5000", 10);
 
-app.post("/chisai", async (req: Request, res: Response) => {
+app.post("/chisai", async (req, res) => {
   const { originalUrl } = req.body;
   console.log(`Received data: ${originalUrl}`);
   try {
@@ -37,7 +39,7 @@ app.post("/chisai", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/:short", async (req: Request, res: Response) => {
+app.get("/:short", async (req, res) => {
   try {
     const url = await URL.findOne({ short: req.params.short });
     console.log(`Found URL: ${url}`);
@@ -48,13 +50,13 @@ app.get("/:short", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/", (_, res: Response) => {
+app.get("/", (_, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 const start = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URL as string), {
+    await mongoose.connect(process.env.MONGODB_URL), {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     };
