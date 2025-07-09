@@ -3,12 +3,12 @@ import { Schema, model } from "mongoose";
 const urlSchema = new Schema({
   original: {
     type: String,
-    required: true
+    required: true,
   },
   short: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
 export const URL = model("URL", urlSchema);
