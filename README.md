@@ -7,10 +7,10 @@ A distributed, high-performance URL shortener built with Node.js, Express, Redis
 ## Core Architecture
 
 - **Node.js/Express:** Serves a simple REST API for shortening and redirecting URLs.
-- **Redis:** Used as a high-speed caching layer. It stores recently created or accessed URLs for fast lookups, dramatically reducing database load.
+- **Redis:** Used as a high-speed caching layer. It stores recently created or accessed URLs for fast lookups, reducing database load.
 - **MongoDB:** The primary database for persistently storing all URL mappings.
 - **Stateless API:** The application is stateless, allowing for easy horizontal scaling by running multiple instances behind a load balancer.
-- **Monitoring:** Exposes application and database metrics via Prometheus endpoints for observability.
+- **Monitoring:** Exposes application metrics via Prometheus endpoints for observability.
 - **Distributed Lock:** Implements a distributed lock using Redis to prevent race conditions when multiple requests to shorten the same URL are received simultaneously. This ensures data consistency and prevents duplicate entries.
 
 
@@ -18,6 +18,12 @@ A distributed, high-performance URL shortener built with Node.js, Express, Redis
 
 -  **Start All Services:**
     This command will start Redis, MongoDB, App and the monitoring services.
+    ```bash
+    git clone https://github.com/SamTheTechi/ChisaiURL.git
+    ```
+    ```bash
+    cd ./ChisaiURL
+    ```
     ```bash
     docker-compose up -d
     ```
