@@ -1,4 +1,4 @@
-![Banner](banner.jpg)
+![Banner](public/banner.jpg)
 
 # Chisai URL 
 
@@ -25,9 +25,18 @@ A distributed, high-performance URL shortener built with Node.js, Express, Redis
     cd ./ChisaiURL
     ```
     ```bash
+    bun install # or npm install
+    ```
+    ```bash
     docker-compose up -d
     ```
 - Then Visit `http://localhost:5000`
+
+
+## Performance Stats
+
+![Performance](public/performance.webp)
+
 
 ## API Endpoints
 
